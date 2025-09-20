@@ -1,53 +1,48 @@
 import os
 from utils import exist_path
 from typing import List
-
+import pathlib
 
 class DepoItem:
-    def __init__(self, name, parent=None):
-        self.__name = name
-        self.__alias = None
-        self.parent = parent
+    def __init__(self, name, path, parent=None):
+        self._name = name
+        self._path = path
+        self._alias = None
+        self._parent = parent
         self.id = None
 
     def __repr__(self):
-        return f'DepoItem("{self.name}")'
+        return f'DepoItem("{self.name} {self._path}")'
 
     @property
     def name(self):
-        return self.__name
+        return self._name
 
     @property
     def alias(self):
-        return f'alias_for {self.__name}'
+        return f'alias_for {self._name}'
 
     def get(self):
-        return self.__name
+        return self._name
 
 
 class DepoStructure:
     def __init__(self, structure: str, db=None):
         self.db = db
-        self.structure = structure
-        self.depo = f'{structure}/depo'
-        self.configs = f'{self.depo}/0000'
+        self.structure = pathlib.Path(structure)
+        self.depo = self.structure / 'depo'
+        self.configs = self.depo / '0000'
         self.validate_structure()
 
     def __repr__(self):
-        return f'DepoStructure({self.structure})'
+        return f'DepoStructure({self.structure.resolve().as_posix()})'
 
     def validate_structure(self):
         exist_path(self.depo)
         exist_path(self.configs)
 
     def items(self) -> List[DepoItem]:
-        depo_items = self.exclude_pipeline_catalog(os.listdir(self.depo))
-        return [DepoItem(name, parent=self) for name in depo_items]
-
-    @staticmethod
-    def exclude_pipeline_catalog(depo_items: List[str]) -> List[str]:
-        depo_items.remove('0000')
-        return depo_items
+        return [DepoItem(name=item.name, path=item, parent=self) for item in self.depo.iterdir() if not item.as_posix().endswith('/0000')]
 
 
 class Depo:
@@ -81,10 +76,16 @@ class Depo:
 
 
 if __name__ == '__main__':
-    depos = [DepoStructure('/home/ydanilovsky@nolabel.local/PycharmProjects/Depo/tests/depo_project_1'),
-             DepoStructure('/home/ydanilovsky@nolabel.local/PycharmProjects/Depo/tests/depo_project_2'),
-             DepoStructure('/home/ydanilovsky@nolabel.local/PycharmProjects/Depo/tests/depo_project_3')]
+    depos = [DepoStructure('../../tests/depo_project_1'),]
+    #          DepoStructure('../depo_project_2'),
+    #          DepoStructure('/home/ydanilovsky@nolabel.local/PycharmProjects/Depo/tests/depo_project_3')]
     project = Depo(depos)
     itm = project.items()
     for i in itm:
-        print(i.parent)
+        print(i)
+
+    # a = pathlib.Path('/mnt/alien2')
+    # b = pathlib.Path('/mnt/alien')
+    # d = pathlib.Path('/mnt/alien3')
+    # c =[a, b]
+    # print(d in c)
