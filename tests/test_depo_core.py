@@ -2,7 +2,7 @@ from depo.core import DepoItem
 
 class TestDepo:
     def test_current_default(self, depo, depo_structure):
-        assert depo.current_depo == depo_structure[0]
+        assert depo.current_structure == depo_structure[0]
 
     def test_length(self, depo):
         assert len(depo.structures()) == 3
