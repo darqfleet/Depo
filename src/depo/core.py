@@ -5,12 +5,13 @@ from pathlib import Path
 
 
 class AbstractDepoUnit:
-    def __init__(self, name, path: Path, depo=None):
+    def __init__(self, name, path: Path, depo=None, parent=None):
         self._name = name
         self._path = path
         self._alias = None
         self._depo = depo
         self._space = None
+        self._parent = parent
         self._id = None
 
     @property
@@ -33,26 +34,21 @@ class AbstractDepoUnit:
     def alias(self):
         return self._alias
 
-    def init_item(self):
-        if not self.path.exists():
-            self.path.mkdir()
-
 
 class Step(AbstractDepoUnit):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._status = None
-        self.init_steps()
+        self.prefix = None
+        self.init_step()
 
-    def init_steps(self):
-        new_path = self.path / self.name
-        # make render output structure if not exist
-        if not new_path.exists():
-            new_path.mkdir()
-            print(f'create new step {new_path}')
+    def init_step(self):
+        step = self.path
+        if not step.exists():
+            step.mkdir()
 
     def __repr__(self):
-        return f'{self.name}'  # {self.path}
+        return f'Step: {self.name}, on DepoItem(name={self._parent.name})'
 
 
 class DepoItem(AbstractDepoUnit):
@@ -60,14 +56,13 @@ class DepoItem(AbstractDepoUnit):
         super().__init__(*args, **kwargs)
         self._alias = None
         self._steps_path = self._path / 'steps'
-        self.init_item()
         self.init_standart_structures()
 
-
     def init_standart_structures(self):
-        standard_cataloges = ('steps', 'render', 'source')
-        for c in standard_cataloges:
-            path = self.path / c
+        self.path.mkdir(exist_ok=True)
+        std_steps = ('steps', 'render', 'source')
+        for step in std_steps:
+            path = self.path / step
             if not path.exists():
                 path.mkdir()
 
@@ -76,10 +71,13 @@ class DepoItem(AbstractDepoUnit):
 
     @property
     def steps(self):
-        return [Step(path=step, name=step.name, depo=self.depo) for step in self._steps_path.iterdir() if step.is_dir()]
+        return [Step(path=step, name=step.name, depo=self.depo, parent=self) for step in self._steps_path.iterdir() if
+                step.is_dir()]
 
-    def create_step(self, name):
-        return Step(name=name, path=self._steps_path, depo=self.depo)
+    def create_step(self, name, prefix=''):
+        if prefix:
+            name = f'{prefix}_{name}'
+        return Step(name=name, path=self._steps_path / name, depo=self.depo)
 
     def change_depo(self):
         # move all item with content to another depo
@@ -138,6 +136,10 @@ class Depo:
             item.destroy()
             self._items.remove(item)
 
+    @classmethod
+    def create_depo(cls, path):
+        Path(path).mkdir()
+        return cls(path)
 
 class DepoCombine:
     def __init__(self, depos: List[Depo]):
@@ -176,11 +178,12 @@ if __name__ == '__main__':
     dp = DepoCombine([Depo('../../tests/depo_project_1'), Depo('../../tests/depo_project_2')])
     dp.set_current_depo(1)
     print(dp.current_depo)
-    new = '1232'
+    new = '3333'
     dp.current_depo.create_item(new)
     tt = dp.find(new)
     tt.create_step('cokolwiek')
     tt.create_step('fx_water')
     tt.create_step('fx_dust')
-    print(tt.steps)
-
+    tt.create_step('bom bom')
+    for s in tt.steps:
+        print(s)
