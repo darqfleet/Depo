@@ -6,5 +6,6 @@ in
       inetutils
       jetbrains.pycharm-professional
       poetry
+      libcdada
     ];
 }
