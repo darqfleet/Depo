@@ -1,4 +1,3 @@
-import pathlib
 from src.depo.exceptions import *
 from pathlib import Path
 
