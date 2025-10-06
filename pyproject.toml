@@ -1,17 +1,35 @@
 [project]
 name = "depo"
-version = "0.1.0"
+version = "0.0.3"
 description = ""
 authors = [
     {name = "darqfleet",email = "darqfleet@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.9,<3.14"
 dependencies = [
-    "pydantic (>=2.11.9,<3.0.0)"
+    "pydantic (>=2.11.9,<3.0.0)",
+    "pytest (>=8.4.2,<9.0.0)",
+    "asyncio (>=4.0.0,<5.0.0)",
+    "pytest-asyncio (>=1.2.0,<2.0.0)",
+    "coverage (>=7.10.6,<8.0.0)",
+    "pyside6 (>=6.9.2,<7.0.0)",
+    "poetry-core (>=2.0.0)"
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+package-mode = false
+
+[tool.pytest.ini_options]
+pythonpath = ". src"
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+filterwarnings = [
+    'ignore::DeprecationWarning',
+]
