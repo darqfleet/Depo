@@ -171,6 +171,18 @@ typing-extensions = {version = ">=4.6.0", markers = "python_version < \"3.13\""}
 test = ["pytest (>=6)"]
 
 [[package]]
+name = "fileseq"
+version = "2.2.0"
+description = "A Python library for parsing frame ranges and file sequences commonly used in VFX and Animation applications."
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "fileseq-2.2.0-py3-none-any.whl", hash = "sha256:ded8fbc5d4ece7399886a587fcb6298a3fb3c13cb08dcb93c1a6159a488e73ee"},
+    {file = "fileseq-2.2.0.tar.gz", hash = "sha256:57aa0a3839347714b3e56445501fce9237c0a822455640f965caaadeed1f69e5"},
+]
+
+[[package]]
 name = "iniconfig"
 version = "2.1.0"
 description = "brain-dead simple config-ini parsing"
@@ -561,4 +573,4 @@ typing-extensions = ">=4.12.0"
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.9,<3.14"
-content-hash = "139096135406de66c414ecd888dddf3718f89ea9b1f7d4a8e4e7aaa2ae692268"
+content-hash = "fed3f5a3c564bf5614d0ed6096ab8011aabe1be2fa7f917c5c178d6d6c16a19f"

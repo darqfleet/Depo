@@ -1,0 +1,5 @@
+export ROOT=`pwd`
+export DP_HOME=$ROOT
+export PYTHONPATH=$ROOT/src:$PYTHONPATH
+#python $ROOT/src/depo/gui.py
+echo $DP_HOME

@@ -14,7 +14,8 @@ dependencies = [
     "pytest-asyncio (>=1.2.0,<2.0.0)",
     "coverage (>=7.10.6,<8.0.0)",
     "pyside6 (>=6.9.2,<7.0.0)",
-    "poetry-core (>=2.0.0)"
+    "poetry-core (>=2.0.0)",
+    "fileseq (>=2.2.0,<3.0.0)"
 ]
 
 

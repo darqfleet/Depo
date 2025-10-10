@@ -2,7 +2,8 @@ import sys
 import pathlib
 from PySide6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QMainWindow, QToolBar, QSplitter, QPushButton, QComboBox, QStackedWidget
 from PySide6.QtCore import Qt
-from PySide6.QtGui import QPixmap, QAction, QIcon
+from PySide6.QtGui import QPixmap, QAction, QIcon, QFont, QRawFont
+
 
 
 class Filler(QWidget):
@@ -80,6 +81,7 @@ class MainAppWindow(QMainWindow):
 
 if __name__ == '__main__':
     qapp = QApplication(sys.argv[:1])
+    qapp.setFont(QFont())
     window = MainAppWindow()
     window.show()
     sys.exit(qapp.exec())
