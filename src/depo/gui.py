@@ -10,6 +10,7 @@ class Filler(QWidget):
     def __init__(self, text, *args, **kwargs):
         super().__init__(*args, **kwargs)
         label = QLabel(text)
+        label.setStyleSheet('background-color: #83a598')
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout_main = QVBoxLayout()
         layout_main.addWidget(label)
@@ -82,6 +83,6 @@ class MainAppWindow(QMainWindow):
 if __name__ == '__main__':
     qapp = QApplication(sys.argv[:1])
     qapp.setFont(QFont())
-    window = MainAppWindow()
+    window = Filler('bla bla')
     window.show()
     sys.exit(qapp.exec())
