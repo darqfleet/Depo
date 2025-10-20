@@ -1,13 +1,11 @@
 import yaml
 from pathlib import Path
-from src.depo_gui import CONFIG_DIR
-
 
 class Config:
+    EXTESIONS = ('.yaml', '.toml')
     def __init__(self, configs_dir: Path):
         self._config_dir = configs_dir
-        self._all_configs = []
-        self._config: str | None = None
+        self._all_configs = {}
         self.configure()
 
     def configure(self):
@@ -19,20 +17,21 @@ class Config:
 
     def explore_configs(self):
         for c in self._config_dir.iterdir():
-            self._all_configs.append(c)
+            if c.suffix in Config.EXTESIONS:
+                config_name = c.name.split('.')[0]
+                self._all_configs[config_name] = c
 
-    def config_data(self, index: int):
-        config_file_path = str(self._all_configs[index])
+    def get_one(self, name):
+        return self._all_configs.get(name)
+
+    @staticmethod
+    def config_data(config_file_path):
         with open(config_file_path, 'r') as file:
-            if config_file_path.endswith('yaml'):
+            if str(config_file_path).endswith('yaml'):
                 data = yaml.safe_load(file)
                 return data
         return file.readlines()
 
     @property
-    def config_list(self):
+    def all_configs(self):
         return self._all_configs
-
-if __name__ == '__main__':
-    a = Config(CONFIG_DIR / 'themes')
-    print(a.config_data(5))

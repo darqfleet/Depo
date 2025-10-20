@@ -1,10 +1,9 @@
 import sys
-from stylesheet import style
 
 import yaml
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QApplication, QPushButton
 from PySide6.QtGui import QFont, QFontDatabase
-with open('/home/ydanilovsky@nolabel.local/PycharmProjects/Depo/config/themes/gruvbox-dark-hard.yaml', 'r') as file:
+with open('/config/theme/gruvbox-dark-hard.yaml', 'r') as file:
     colors = yaml.safe_load(file)
 
 schema = {k: f"#{v}" for k, v in colors.items() if k.startswith('base')}

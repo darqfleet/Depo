@@ -1,8 +1,12 @@
 #background color: base01
 #font color: base01
-style ='''
+template ='''
 QMainWindow#main {
     background-color: $base00;
+}
+QListWidget {
+    background-color: $base00;
+    color:$base04;
 }
 QStatusBar {
     background-color: $base00;

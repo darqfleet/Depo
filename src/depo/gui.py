@@ -83,6 +83,6 @@ class MainAppWindow(QMainWindow):
 if __name__ == '__main__':
     qapp = QApplication(sys.argv[:1])
     qapp.setFont(QFont())
-    window = Filler('bla bla')
+    window = MainAppWindow()
     window.show()
     sys.exit(qapp.exec())

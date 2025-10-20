@@ -2,13 +2,15 @@ import sys
 from PySide6.QtWidgets import QMainWindow, QApplication, QStatusBar, QToolBar, QComboBox
 from PySide6.QtGui import QAction, QFontDatabase, QFont
 from PySide6.QtCore import Qt, QSize
-from theme import style, apply_schema, schema
-from src.depo_gui import CONFIG_DIR
+from src.depo.colorschema import ColorSchema
+from src.depo import CONFIG_PATH
+
 
 
 class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, app:QApplication, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.main_application = app
         self.init_ui()
 
     def init_ui(self):
@@ -19,14 +21,28 @@ class MainWindow(QMainWindow):
         self.create_toolbar()
         self.create_actions()
         self.create_menu()
-
         self.bind_actions()
 
+        self.color_schema = ColorSchema(self.main_application)
+        self.color_schema.apply_stylesheet_schema()
+
+        id = QFontDatabase().addApplicationFont(f'{CONFIG_PATH}/fonts/JetBrainsMonoNL-Bold.ttf')
+        self.main_application.setStyleSheet(self.color_schema.stylesheet)
+        families = QFontDatabase.applicationFontFamilies(id)
+        self.main_application.setFont(QFont(families[0], 10))
+
+
+
+
     def create_actions(self):
-        self.act_quit = QAction('Qiut')
+        self.act_quit = QAction('Quit')
         self.act_quit.setShortcut('Ctrl+q')
         self.act_quit.setStatusTip('Exit from Depo')
         self.act_quit.triggered.connect(self.quit)
+        self.act_theme = QAction('Theme')
+        self.act_theme.setStatusTip('Color Schemas')
+        self.act_theme.setShortcut('Ctrl+t')
+        self.act_theme.triggered.connect(self.settings_theme)
         self.act_test = QAction('Test')
         self.act_test.setShortcut('Test test')
         self.act_test.setStatusTip('Proste testowanie')
@@ -56,23 +72,14 @@ class MainWindow(QMainWindow):
     def bind_actions(self):
         self.menu_depo.addAction(self.act_quit)
         self.menu_view.addAction(self.act_toolbar_toggle)
+        self.menu_settings.addAction(self.act_theme)
+
 
 
     def quit(self):
         self.close()
 
+    def settings_theme(self):
+        self.color_schema.show()
 
-if __name__ == '__main__':
-    print(CONFIG_DIR)
-    # qapp = QApplication()
-    # id = QFontDatabase().addApplicationFont(
-    #     '/home/ydanilovsky@nolabel.local/PycharmProjects/Depo/config/fonts/JetBrainsMonoNL-Bold.ttf')
-    # families = QFontDatabase.applicationFontFamilies(id)
-    #
-    # style = apply_schema(schema, style)
-    #
-    # qapp.setStyleSheet(style)
-    # qapp.setFont(QFont(families[0], 10))
-    # window = MainWindow()
-    # window.show()
-    # sys.exit(qapp.exec())
+
