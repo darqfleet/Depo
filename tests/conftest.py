@@ -1,7 +1,5 @@
 from src.depo.core import *
 import pytest
-import pathlib
-import os
 
 @pytest.fixture
 def depo_structure():

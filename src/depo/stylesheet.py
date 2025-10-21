@@ -1,5 +1,3 @@
-#background color: base01
-#font color: base01
 template ='''
 QMainWindow#main {
     background-color: $base00;
@@ -53,7 +51,6 @@ QPushButton {
     padding: 5px;
     border-width: 1px;
     border-radius: 5px;
-    font: JetBrainsMonoNL-Bold;
 }
 QPushButton:pressed {
     background-color: $base01;

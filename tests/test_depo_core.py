@@ -1,4 +1,4 @@
-from depo.core import DepoItem
+from src.depo.core import DepoItem
 
 class TestDepo:
     def test_current_default(self, depo, depo_structure):

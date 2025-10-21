@@ -3,17 +3,19 @@ from PySide6.QtWidgets import QMainWindow, QApplication, QStatusBar, QToolBar, Q
 from PySide6.QtGui import QAction, QFontDatabase, QFont
 from PySide6.QtCore import Qt, QSize
 from src.depo.colorschema import ColorSchema
+from src.depo.config import Config
 from src.depo import CONFIG_PATH
 
 
-
 class MainWindow(QMainWindow):
-    def __init__(self, app:QApplication, *args, **kwargs):
+    def __init__(self, app: QApplication, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.main_application = app
+        self.color_schema = ColorSchema(self.main_application)
         self.init_ui()
 
     def init_ui(self):
+        self.color_schema.apply()
         self.setWindowTitle('Depo')
         self.setGeometry(250, 250, 1000, 500)
         self.setObjectName('main')
@@ -22,16 +24,6 @@ class MainWindow(QMainWindow):
         self.create_actions()
         self.create_menu()
         self.bind_actions()
-
-        self.color_schema = ColorSchema(self.main_application)
-        self.color_schema.apply_stylesheet_schema()
-
-        id = QFontDatabase().addApplicationFont(f'{CONFIG_PATH}/fonts/JetBrainsMonoNL-Bold.ttf')
-        self.main_application.setStyleSheet(self.color_schema.stylesheet)
-        families = QFontDatabase.applicationFontFamilies(id)
-        self.main_application.setFont(QFont(families[0], 10))
-
-
 
 
     def create_actions(self):
@@ -50,8 +42,6 @@ class MainWindow(QMainWindow):
         self.act_toolbar_toggle.setText('Toolbar')
         self.act_toolbar_toggle.setStatusTip('Enable or Disable main toolbar')
 
-
-
     def create_toolbar(self):
         self.toolbar = QToolBar()
         self.addToolBar(self.toolbar)
@@ -61,7 +51,7 @@ class MainWindow(QMainWindow):
         self.toolbar.setIconSize(QSize(32, 32))
         cmb_box = QComboBox()
         cmb_box.addItems(['sdad', 'asdad'])
-        self.toolbar.addWidget(cmb_box)
+        # self.toolbar.addWidget(cmb_box)
 
     def create_menu(self):
         self.menu_depo = self.menuBar().addMenu('Depo')
@@ -74,12 +64,8 @@ class MainWindow(QMainWindow):
         self.menu_view.addAction(self.act_toolbar_toggle)
         self.menu_settings.addAction(self.act_theme)
 
-
-
     def quit(self):
         self.close()
 
     def settings_theme(self):
         self.color_schema.show()
-
-

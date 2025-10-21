@@ -2,7 +2,7 @@ import yaml
 from pathlib import Path
 
 class Config:
-    EXTESIONS = ('.yaml', '.toml')
+    EXTESIONS = ('.yaml', '.toml', '.ttf')
     def __init__(self, configs_dir: Path):
         self._config_dir = configs_dir
         self._all_configs = {}

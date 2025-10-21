@@ -1,10 +1,10 @@
 import sys
 from PySide6.QtWidgets import QApplication
-from PySide6.QtGui import QFontDatabase, QFont
-from src.depo.main_window import MainWindow
+from src.depo.window import MainWindow
+
 
 if __name__ == '__main__':
-    qapp = QApplication(sys.argv[1:])
-    window = MainWindow(qapp)
+    qApp = QApplication(sys.argv[1:])
+    window = MainWindow(qApp)
     window.show()
-    sys.exit(qapp.exec())
+    sys.exit(qApp.exec())
