@@ -1,9 +1,8 @@
 import os
 from typing import List
 from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout, QApplication, QListWidget, QListWidgetItem, \
-    QPushButton
+    QPushButton, QDialog
 from PySide6.QtGui import QFontDatabase, QFont
-
 from src.depo import CONFIG_PATH
 from src.depo.stylesheet import template
 from src.depo.config import Config
@@ -33,9 +32,9 @@ class ColorSchemaPreview(QWidget):
                 count += 1
 
 
-class ColorSchema(QWidget):
-    def __init__(self, app: QApplication, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+class ColorSchema(QDialog):
+    def __init__(self, app: QApplication, parent=None, *args, **kwargs):
+        super().__init__(parent=parent, *args, **kwargs)
         self.main_application = app
         self.config = Config(CONFIG_PATH / 'theme')
         self.schema_list = self.config.all_configs

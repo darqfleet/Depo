@@ -56,8 +56,15 @@ QPushButton:pressed {
     background-color: $base01;
     padding: 5px;
     border-style: solid;
-    border-width: 1px;
+    border-width: 0.5px;
     border-radius: 5px;
+    border-color: $base09;
+    color: $base0D;}
+QListWidget::item:selected {
+    background-color: $base01;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 2px;
     border-color: $base09;
     color: $base0D;}
 '''

@@ -1,3 +1,4 @@
+import sys
 import pathlib
 from PySide6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QMainWindow, QToolBar, QSplitter, QPushButton, QComboBox, QStackedWidget
 from PySide6.QtCore import Qt
@@ -20,6 +21,8 @@ class SplitWindow(QMainWindow):
         super().__init__(*args, **kwargs)
         self.parent = parent
         self.setup_window()
+        self.options = self.menuBar().addMenu('Split')
+        self.options.addAction(QAction('blabla'))
 
 
     def setup_window(self):
@@ -67,3 +70,10 @@ class SplitWindow(QMainWindow):
     def set_widget(self):
         index = self.cmb_select.currentIndex()
         self.stacked.setCurrentIndex(index)
+
+
+if __name__ == '__main__':
+    qApp = QApplication()
+    w = SplitWindow()
+    w.show()
+    sys.exit(qApp.exec())

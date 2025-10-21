@@ -12,7 +12,7 @@ class MainWindow(QMainWindow):
     def __init__(self, app: QApplication, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.main_application = app
-        self.color_schema = ColorSchema(self.main_application)
+        self.color_schema = ColorSchema(self.main_application, parent=self)
         self.central = SplitWindow()
         self.setCentralWidget(self.central)
         self.init_ui()
@@ -27,6 +27,7 @@ class MainWindow(QMainWindow):
         self.create_actions()
         self.create_menu()
         self.bind_actions()
+        self.color_schema.apply()
 
 
     def create_actions(self):
