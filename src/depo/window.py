@@ -5,6 +5,7 @@ from PySide6.QtCore import Qt, QSize
 from src.depo.colorschema import ColorSchema
 from src.depo.config import Config
 from src.depo import CONFIG_PATH
+from src.depo.wgt_split import SplitWindow
 
 
 class MainWindow(QMainWindow):
@@ -12,6 +13,8 @@ class MainWindow(QMainWindow):
         super().__init__(*args, **kwargs)
         self.main_application = app
         self.color_schema = ColorSchema(self.main_application)
+        self.central = SplitWindow()
+        self.setCentralWidget(self.central)
         self.init_ui()
 
     def init_ui(self):
@@ -51,7 +54,6 @@ class MainWindow(QMainWindow):
         self.toolbar.setIconSize(QSize(32, 32))
         cmb_box = QComboBox()
         cmb_box.addItems(['sdad', 'asdad'])
-        # self.toolbar.addWidget(cmb_box)
 
     def create_menu(self):
         self.menu_depo = self.menuBar().addMenu('Depo')

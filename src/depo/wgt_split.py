@@ -1,4 +1,3 @@
-import sys
 import pathlib
 from PySide6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QMainWindow, QToolBar, QSplitter, QPushButton, QComboBox, QStackedWidget
 from PySide6.QtCore import Qt
@@ -10,14 +9,13 @@ class Filler(QWidget):
     def __init__(self, text, *args, **kwargs):
         super().__init__(*args, **kwargs)
         label = QLabel(text)
-        label.setStyleSheet('background-color: #83a598')
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout_main = QVBoxLayout()
         layout_main.addWidget(label)
         self.setLayout(layout_main)
 
 
-class Window(QMainWindow):
+class SplitWindow(QMainWindow):
     def __init__(self, parent=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.parent = parent
@@ -60,29 +58,12 @@ class Window(QMainWindow):
 
     def split_horizontal(self):
         self.splitter.setOrientation(Qt.Orientation.Horizontal)
-        self.splitter.addWidget(Window())
+        self.splitter.addWidget(SplitWindow())
 
     def split_vertical(self):
         self.splitter.setOrientation(Qt.Orientation.Vertical)
-        self.splitter.addWidget(Window())
+        self.splitter.addWidget(SplitWindow())
 
     def set_widget(self):
         index = self.cmb_select.currentIndex()
         self.stacked.setCurrentIndex(index)
-
-class MainAppWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.wgt = QWidget()
-        self.main_layout = QHBoxLayout()
-        self.main_layout.addWidget(Window(self))
-        self.wgt.setLayout(self.main_layout)
-        self.setCentralWidget(self.wgt)
-
-
-if __name__ == '__main__':
-    qapp = QApplication(sys.argv[:1])
-    qapp.setFont(QFont())
-    window = MainAppWindow()
-    window.show()
-    sys.exit(qapp.exec())
