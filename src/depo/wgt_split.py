@@ -1,6 +1,9 @@
 import sys
 import pathlib
-from PySide6.QtWidgets import QWidget, QApplication, QVBoxLayout, QHBoxLayout, QLabel, QMainWindow, QToolBar, QSplitter, QPushButton, QComboBox, QStackedWidget
+from PySide6.QtWidgets import (QWidget, QApplication, QVBoxLayout, QHBoxLayout,
+                               QLabel, QMainWindow, QToolBar, QSplitter,
+                               QPushButton, QComboBox, QStackedWidget,
+                               QSizePolicy, QFrame)
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QPixmap, QAction, QIcon, QFont, QRawFont
 
@@ -17,16 +20,28 @@ class Filler(QWidget):
 
 
 class SplitWindow(QMainWindow):
-    def __init__(self, parent=None, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.parent = parent
         self.setup_window()
-        self.options = self.menuBar().addMenu('Split')
-        self.options.addAction(QAction('blabla'))
+
 
 
     def setup_window(self):
+        self.bt_maximize_pane = QPushButton('M')
+        self.bt_maximize_pane.setFixedSize(20,20)
+        self.bt_maximize_pane.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        self.bt_options = QPushButton('^')
+        self.bt_options.setFixedSize(20,20)
+        self.bt_options.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
+        self.top_frame = QFrame()
+        self.top_frame.setObjectName('top')# = QFrame()
+
+
+
+
+
         self.bt_split_hor = QPushButton('SplitH')
+        self.bt_split_hor.setSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Fixed)
         self.bt_split_hor.clicked.connect(self.split_horizontal)
         self.bt_split_ver = QPushButton('SplitV')
         self.bt_split_ver.clicked.connect(self.split_vertical)
@@ -41,14 +56,22 @@ class SplitWindow(QMainWindow):
 
 
         layout_top = QHBoxLayout()
-        layout_top.addWidget(self.bt_split_hor)
-        layout_top.addWidget(self.bt_split_ver)
-        layout_top.addWidget(self.cmb_select)
+        # layout_top.setObjectName('top')
+        layout_top.setContentsMargins(0,0,0,0)
+        layout_top.setAlignment(Qt.AlignmentFlag.AlignRight)
+        layout_top.addWidget(self.bt_maximize_pane, 0, alignment=Qt.AlignmentFlag.AlignRight)
+        layout_top.addWidget(self.bt_options, 0, alignment=Qt.AlignmentFlag.AlignRight)
+        self.top_frame.setLayout(layout_top)
+
+
+        # layout_top.addWidget(self.cmb_select)
 
         self.layout_split = QVBoxLayout()
         self.layout_split.addWidget(self.stacked)
         layout_main = QVBoxLayout()
-        layout_main.addLayout(layout_top)
+        layout_main.setContentsMargins(0,0,0,0)
+        layout_main.addWidget(self.top_frame)
+        # layout_main.addLayout(layout_top)
         layout_main.addLayout(self.layout_split)
         self.cmb_select.currentIndexChanged.connect(self.set_widget)
 

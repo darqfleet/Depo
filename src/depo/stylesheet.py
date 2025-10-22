@@ -1,6 +1,6 @@
 template ='''
 QMainWindow#main {
-    background-color: $base00;
+    background-color: $base01;
 }
 QListWidget {
     background-color: $base00;
@@ -67,4 +67,6 @@ QListWidget::item:selected {
     border-radius: 2px;
     border-color: $base09;
     color: $base0D;}
+QFrame#top{
+    background-color: $base00;}
 '''
